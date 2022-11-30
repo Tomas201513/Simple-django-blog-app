@@ -1,37 +1,59 @@
-version: '3.8'
+version: "3.8"
 services:
-  web: 
+  django:
+    container_name: web_container
     build: .
     ports: 
-      - '8000:8000'
-    command: python manage.py runserver 0.0.0.0:8000
-    
-    volumes:
+      - "8000:8000"
+    command: bash -c "python manage.py migrate && python manage.py runserver 0:8000"
+    volumes: 
       - .:/code
+    depends_on: 
+      - db
+    # restart: on-failure
+    networks: 
+      - blog
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    # restart: on-failure
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports: 
+      - "5050:80"
     depends_on:
       - db
-    restart: "on-failure"
-
-  db:
-    image: postgres
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    env_file:
-      - .env
+     - pgadmin_data:/var/lib/pgadmin
+    networks: 
+      - blog
     
-    # if we dont have .venv
-    # environment:
-    #   - DB_ENGINE=django.db.backends.postgresql
-    #   - DB_NAME= postgres
-    #   - DB_USER=root
-    #   - DB_PASSWORD=root
-    #   - DB_HOST=db
-    #   - DB_PORT=5432
+  db:
+    container_name: postgres_container
+    image: postgres
+    volumes: 
+      - "postgres_data:/var/lib/postgresql/data/"
+    environment:
+      - POSTGRES_ENGINE=django.db.backends.postgresql
+      - POSTGRES_NAME= postgres
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks: 
+      - blog
+    
+   
+networks:
+  blog:
 volumes:
   postgres_data:
-
-
-
-
-
+  pgadmin_data:
+  media_data:
 
