@@ -75,7 +75,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'website.wsgi.application'
 
 
-# Database
+# online postgres Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 # DATABASES = {
@@ -90,17 +90,18 @@ WSGI_APPLICATION = 'website.wsgi.application'
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': config('DB_ENGINE', 'django.db.backends.postgresql'), 
-#         'NAME': config('DB_NAME'),
-#         'USER': config('DB_USER'),
-#         'PASSWORD': config('DB_PASSWORD'),
-#         'HOST': config('DB_HOST')
-#         ,'PORT': config('DB_PORT'),
+DATABASES = {
+    'default': {
+        'ENGINE': config('DB_ENGINE'), 
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
 
-  
-#     }}
+    }}
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

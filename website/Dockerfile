@@ -19,7 +19,7 @@ COPY . .
 
 
 # EXPOSE 8000  
-# # start server  
+# # start server we use this if no docker-compose and one image only 
 # CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
 
