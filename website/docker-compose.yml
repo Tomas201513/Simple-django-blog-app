@@ -1,5 +1,6 @@
 version: "3.8"
 services:
+  
   django:
     container_name: web_container
     build: .
@@ -13,6 +14,7 @@ services:
     # restart: on-failure
     networks: 
       - blog
+  
   pgadmin:
     container_name: pgadmin_container
     image: dpage/pgadmin4
@@ -34,13 +36,8 @@ services:
     image: postgres
     volumes: 
       - "postgres_data:/var/lib/postgresql/data/"
-    environment:
-      - POSTGRES_ENGINE=django.db.backends.postgresql
-      - POSTGRES_NAME= postgres
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=root
-      - POSTGRES_HOST=db
-      - POSTGRES_PORT=5432
+    env_file:
+      - .env
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
       interval: 10s

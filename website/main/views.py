@@ -51,7 +51,7 @@ def sign_up(request):
     return render(request, 'registration/sign_up.html', {"form": form})
 
 @login_required(login_url="/login")
-@permission_required("main.add_post",raise_exception=True)
+# @permission_required("main.add_post",raise_exception=True)
 def create_post(request):
     if request.method=='POST':
         form=PostForm(request.POST)
