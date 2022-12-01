@@ -1,4 +1,4 @@
 # BLOG APP
 User managment sysytem
-![Screenshot](media/blog.png)
+![Screenshot](blog.png)
 
